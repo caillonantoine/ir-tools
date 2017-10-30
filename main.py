@@ -28,3 +28,15 @@ def radix2(array):
 	Y = np.zeros(radix)
 	Y[0:N] = array
 	return array
+	
+def cvn(r,i):
+	r_ = np.fft.fft(radix2(r))
+	i_ = np.fft.fft(radix2(i))
+	y_ = np.zeros_like(r_)
+	for k in range(len(r_)):
+		y_[k] = r_[k] * i_[k%len(i_)]
+	return np.fft.ifft(y_)
+	
+def dcvn(r,i):
+	return cvn(r,i[::-1])
+		
