@@ -18,7 +18,7 @@ def write(file,array):
 		
 def generate_chirp(f0,f1,T,fe):
 	space = np.linspace(0,T,fe*T)
-	return chirp(space,f0,T,f1,method='logarithmic')
+	return chirp(space,f0,T,f1,method='linear')
 	
 def radix2(array):
 	N = len(array)
@@ -30,16 +30,16 @@ def radix2(array):
 			break
 	Y = np.zeros(2**radix)
 	Y[0:N] = array
-	return array
+	return Y
 	
 def cvn(r,i):
+	i2 = np.zeros_like(r)
+	i2[0:len(i)] = i
 	r_ = np.fft.rfft(radix2(r))
-	i_ = np.fft.rfft(radix2(i))
-	y_ = np.zeros_like(r_)
-	for k in range(len(r_)):
-		y_[k] = r_[k] * i_[k%len(i_)]
+	i_ = np.fft.rfft(radix2(i2))
+	y_ = r_ * i_
 	y = np.fft.irfft(y_)
-	return y/float(np.max(y))
+	return y/float(np.max(abs(y)))
 	
 def dcvn(r,i):
 	return cvn(r,i[::-1])
@@ -49,3 +49,11 @@ def get_ir(r,i):
 	start = np.argmax(y)
 	return y[start:]
 		
+def main():
+	print "Import de l'impulse"
+	i = read('impulse.wav')
+	print "Import de la réponse"
+	r = read('response.wav')
+	print "Calcul de la réponse impulsionnelle"
+	ri = get_ir(r,i)
+	return ri
