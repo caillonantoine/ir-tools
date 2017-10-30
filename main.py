@@ -4,13 +4,15 @@ import wave
 from scipy.io import wavfile as wf
 from scipy.signal import chirp
 
+fe = 44100
+
 def read(file):
 	return wf.read(file)[1]/32767.
 	
 def write(file,array):
 	output = wave.open(file,'w')
 	array = ''.join([wave.struct.pack('h',elm) for elm in ((array*32767).astype('int'))])
-	output.setparams((1,2,96000,0,'NONE','not compressed'))
+	output.setparams((1,2,fe,0,'NONE','not compressed'))
 	output.writeframes(array)
 	output.close()
 		
