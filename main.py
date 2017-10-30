@@ -1,6 +1,6 @@
 #coding:utf-8
 import numpy as np
-import wave as wa
+import wave
 from scipy.io import wavfile as wf
 from scipy.signal import chirp
 
@@ -8,10 +8,10 @@ def read(file):
 	return wf.read(file)[1]
 	
 def write(file,array):
-	with wa.open(file,'w') as output:
-		array = ''.join([wa.struct.pack('h',elm) for elm in ((array*32767).astype('int'))])
-		output.setparams((1,2,44100,0,'NONE','not compressed'))
-		output.writeframes(array)
+	output = wave.open(file,'w')
+	array = ''.join([wa.struct.pack('h',elm) for elm in ((array*32767).astype('int'))])
+	output.setparams((1,2,96000,0,'NONE','not compressed'))
+	output.writeframes(array)
 		
 def generate_chirp(f0,f1,T,fe):
 	space = np.linspace(0,T,fe*T)
