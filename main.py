@@ -41,9 +41,4 @@ def cvn(r,i):
 	
 def dcvn(r,i):
 	return cvn(r,i[::-1])
-	
-if __name__ == "__main__":
-	i = read('impulse.wav')
-	r = read('impulse.wav')
-	y = dcvn(r,i)
 		
