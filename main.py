@@ -32,14 +32,17 @@ def radix2(array):
 	Y[0:N] = array
 	return Y
 	
-def cvn(r,i):
+def cvn(r,i,trunk=False):
 	i2 = np.zeros_like(r)
 	i2[0:len(i)] = i
 	r_ = np.fft.rfft(radix2(r))
 	i_ = np.fft.rfft(radix2(i2))
 	y_ = r_ * i_
 	y = np.fft.irfft(y_)
-	return y/float(np.max(abs(y)))
+	if trunk:
+		return (y/float(np.max(abs(y))))[0:len(r)]
+	else:
+		return y/float(np.max(abs(y)))
 	
 def dcvn(r,i):
 	return cvn(r,i[::-1])
