@@ -41,4 +41,9 @@ def cvn(r,i):
 	
 def dcvn(r,i):
 	return cvn(r,i[::-1])
+	
+def get_ir(r,i):
+	y = dcvn(r,i)
+	start = np.argmax(y)
+	return y[start:]
 		
