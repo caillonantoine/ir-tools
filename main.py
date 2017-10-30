@@ -18,7 +18,7 @@ def write(file,array):
 		
 def generate_chirp(f0,f1,T,fe):
 	space = np.linspace(0,T,fe*T)
-	return chirp(space,f0,T,f1,method='logarithmic')
+	return chirp(space,f0,T,f1,method='linear')
 	
 def radix2(array):
 	N = len(array)
