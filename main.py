@@ -3,6 +3,10 @@ import numpy as np
 import wave
 from scipy.io import wavfile as wf
 from scipy.signal import chirp
+from ext import fft
+
+fft.ifft = lambda x: ifft(x)/float(len(x))
+fft.idft = lambda x: idft(x)/float(len(x))
 
 fe = 44100
 
@@ -35,10 +39,10 @@ def radix2(array):
 def cvn(r,i,trunk=False):
 	i2 = np.zeros_like(r)
 	i2[0:len(i)] = i
-	r_ = np.fft.rfft(radix2(r))
-	i_ = np.fft.rfft(radix2(i2))
+	r_ = fft.fft(radix2(r))
+	i_ = fft.fft(radix2(i2))
 	y_ = r_ * i_
-	y = np.fft.irfft(y_)
+	y = fft.ifft(y_)
 	if trunk:
 		return (y/float(np.max(abs(y))))[0:len(r)]
 	else:
