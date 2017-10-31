@@ -82,7 +82,7 @@ recursive subroutine fft(x,y,N)
 
     pi = 3.14159265359
 
-    if (N < 16) then
+    if (N < 8) then
     	call dft(x,y,N)
     else
     	call fft(x(1:N:2),xeven,N/2)
